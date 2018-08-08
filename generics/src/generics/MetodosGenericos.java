@@ -7,4 +7,15 @@ public class MetodosGenericos {
 		System.out.println("\tvalor2:" + tupla.get2());
 		System.out.println("}");
 	}
+	
+	public static double valorAbsolutoDeContenido(Contenedor<? extends Number> contenedor) {
+		Number numero = contenedor.get();
+		double valor = numero.doubleValue();
+		if(valor < 0) {
+			return -valor;
+		}
+		else {
+			return valor;
+		}
+	}
 }

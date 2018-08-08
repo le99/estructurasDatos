@@ -131,6 +131,33 @@ public class Main {
 		System.out.println("Contenedor<? super Number> cont4 = new Contenedor<Integer>();");
 		//Contenedor<? super Number> cont9 = new Contenedor<Integer>();
 		
+		System.out.println();
+		System.out.println("-------------------------------");
+		System.out.println("Metodo con <? extends Number> ");
+		System.out.println("-------------------------------");
+		
+		System.out.println("valorAbsolutoDeContenido con  Contenedor<Number>");
+		Contenedor<Number> cnn1 = new Contenedor<>();
+		cnn1.set(new Integer(-51));
+		double d = MetodosGenericos.valorAbsolutoDeContenido(cnn1);
+		System.out.println(d);
+		System.out.println();
+		
+		System.out.println("valorAbsolutoDeContenido con  Contenedor<Integer>");
+		Contenedor<Integer> cnn2 = new Contenedor<>();
+		cnn2.set(new Integer(-51));
+		d = MetodosGenericos.valorAbsolutoDeContenido(cnn2);
+		System.out.println(d);
+		System.out.println();
+		
+		System.out.println("valorAbsolutoDeContenido con  Contenedor<Object>, NO FUNCIONA");
+		Contenedor<Object> cnn3 = new Contenedor<>();
+		cnn3.set(new Integer(-51));
+		
+		//d = MetodosGenericos.valorAbsolutoDeContenido(cnn3);
+		//System.out.println(d);
+		//System.out.println();
+		
 	}
 
 }
