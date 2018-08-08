@@ -59,6 +59,34 @@ public class Main {
 		System.out.println("-------------------------------");
 		MetodosGenericos.imprimirTupla(t);
 		
+		
+		System.out.println("-------------------------------");
+		System.out.println("Uso de ContenedorNumero");
+		System.out.println("(Integer, Double, Float son sublases de Number)");
+		System.out.println("-------------------------------");
+		
+		
+		System.out.println("No se puede crear ContenedorNumero<String>");
+		//ContenedorNumero<String> cn = new ContenedorNumero<String>();
+		
+		System.out.println("Se puede crear un contenedor ContenedorNumero<Number> ");
+		ContenedorNumero<Number> cn1 = new ContenedorNumero<>();
+		cn1.set(new Integer(32));
+		Number v3 = cn1.get();
+		System.out.println("Valor: " + v3);
+		
+		System.out.println("Se puede crear un contenedor ContenedorNumero<Integer> ");
+		ContenedorNumero<Integer> cn2 = new ContenedorNumero<>();
+		cn2.set(new Integer(32));
+		Integer v4 = cn2.get();
+		System.out.println("Valor: " + v4);
+
+		System.out.println("Se puede crear un contenedor ContenedorNumero<Double> ");
+		ContenedorNumero<Double> cn3 = new ContenedorNumero<>();
+		cn3.set(new Double(32.0));
+		Double v5 = cn3.get();
+		System.out.println("Valor: " + v5);
+		
 	}
 
 }
