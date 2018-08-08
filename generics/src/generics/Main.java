@@ -87,6 +87,50 @@ public class Main {
 		Double v5 = cn3.get();
 		System.out.println("Valor: " + v5);
 		
+		
+		System.out.println("-------------------------------");
+		System.out.println("Wildcards: ?");
+		System.out.println("-------------------------------");
+		Contenedor<Object> cont1 = new Contenedor<Object>();
+		
+		//Error
+		System.out.println("No es valido esta sentencia: ");
+		System.out.println("Contenedor<Object> cont2 = new Contenedor<Integer>();");
+		//Contenedor<Object> cont2 = new Contenedor<Integer>();
+		
+		//Valido
+		Contenedor<?> cont3 = new Contenedor<Object>();
+		Contenedor<?> cont2 = new Contenedor<Number>();
+		Contenedor<?> cont4 = new Contenedor<Integer>();
+
+		System.out.println("-------------------------------");
+		System.out.println("Wildcards: ? extends Number");
+		System.out.println("-------------------------------");
+		
+		//Error
+		System.out.println("No es valido esta sentencia: ");
+		System.out.println("Contenedor<? extends Number> cont4 = new Contenedor<Object>();");
+		//Contenedor<? extends Number> cont4 = new Contenedor<Object>();
+		
+		//Valido
+		Contenedor<? extends Number> cont5 = new Contenedor<Number>();
+		Contenedor<? extends Number> cont6 = new Contenedor<Integer>();
+		
+		
+		System.out.println("-------------------------------");
+		System.out.println("Wildcards: ? super Number");
+		System.out.println("-------------------------------");
+		
+		
+		//Valido
+		Contenedor<? super Number> cont7 = new Contenedor<Object>();
+		Contenedor<? super Number> cont8 = new Contenedor<Number>();
+		
+		//Error
+		System.out.println("No es valido esta sentencia: ");
+		System.out.println("Contenedor<? super Number> cont4 = new Contenedor<Integer>();");
+		//Contenedor<? super Number> cont9 = new Contenedor<Integer>();
+		
 	}
 
 }
