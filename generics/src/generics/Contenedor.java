@@ -3,7 +3,7 @@ package generics;
 public class Contenedor<K> {
 	private K valor;
 	
-	public K get() {
+	public K get() {		
 		return valor;
 	}
 	

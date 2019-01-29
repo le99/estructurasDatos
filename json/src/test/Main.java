@@ -3,16 +3,22 @@ package test;
 
 import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringReader;
+import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 
@@ -23,22 +29,46 @@ import com.google.gson.stream.JsonToken;
 public class Main {
 
 	
-	public static void main(String[] args) {
-	
-		String s = "[]";
-		InputStream stream = new ByteArrayInputStream(s.getBytes(StandardCharsets.UTF_8));
-
+	public static void test() {
+		
 		try {
 			
 			System.out.println("Working Directory = " +
 		              System.getProperty("user.dir"));
 			
-			FileInputStream fis = new FileInputStream("./data/data.json");
-			System.out.println(readJsonStream(fis));
+			
+			//List<String> lines = Files.readAllLines(Paths.get(path), StandardCharsets.UTF_8);
+			//System.out.println(lines);
+			
+			//FileInputStream fis = new FileInputStream("./data/data.json");
+			//System.out.println(readJsonStream(fis));
+
+			
+//			Type collectionType = new TypeToken<Collection<Integer>>(){}.getType();
+//			ArrayList<Test> t2 = gson.fromJson(reader, ArrayList.class);
+//			System.out.println(t2.get(0));
+			
+			Gson gson = new Gson();
+			String path = "./data/CDOT_Bike_Routes_2014_1216-transformed.json";
+			JsonReader reader = new JsonReader(new FileReader(path));
+			Test[] t = gson.fromJson(reader, Test[].class);
+			
+			
+			System.out.println(t[0]);
+			System.out.println(t);
+			
+			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	public static void main(String[] args) {
+	
+		
+		String s = "[]";
+		InputStream stream = new ByteArrayInputStream(s.getBytes(StandardCharsets.UTF_8));
 		
 		//------------------------
 		Gson gson = new Gson();
@@ -49,10 +79,13 @@ public class Main {
 		
 		
 		BagOfPrimitives obj = new BagOfPrimitives();
-		String json = gson.toJson(obj); 
+		String json = gson.toJson(obj);
+		
 		System.out.println(json);
 		
 		BagOfPrimitives obj2 = gson.fromJson(json, BagOfPrimitives.class);
+		
+		test();
 			
 	}
 	
