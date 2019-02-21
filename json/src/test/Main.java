@@ -1,168 +1,149 @@
 package test;
 
-
-import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringReader;
-import java.lang.reflect.Type;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
+import java.util.Arrays;
 import java.util.List;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 
 /**
- * Basado en:
- * http://www.javadoc.io/doc/com.google.code.gson/gson/2.8.5
+ * Basado en: http://www.javadoc.io/doc/com.google.code.gson/gson/2.8.5
+ * 
+ * GSON se puede secargar en:
+ * https://mvnrepository.com/artifact/com.google.code.gson/gson
  */
 public class Main {
 
-	
-	public static void test() {
-		
-		try {
-			
-			System.out.println("Working Directory = " +
-		              System.getProperty("user.dir"));
-			
-			
-			//List<String> lines = Files.readAllLines(Paths.get(path), StandardCharsets.UTF_8);
-			//System.out.println(lines);
-			
-			//FileInputStream fis = new FileInputStream("./data/data.json");
-			//System.out.println(readJsonStream(fis));
+	public static void main(String[] args) {
 
-			
-//			Type collectionType = new TypeToken<Collection<Integer>>(){}.getType();
-//			ArrayList<Test> t2 = gson.fromJson(reader, ArrayList.class);
-//			System.out.println(t2.get(0));
-			
-			Gson gson = new Gson();
-			String path = "./data/CDOT_Bike_Routes_2014_1216-transformed.json";
-			JsonReader reader = new JsonReader(new FileReader(path));
-			Test[] t = gson.fromJson(reader, Test[].class);
-			
-			
-			System.out.println(t[0]);
-			System.out.println(t);
-			
-			
+		System.out.println("Working Directory = " + System.getProperty("user.dir"));
+
+		Gson gson = new Gson();
+		User juan = new User("Juan", 5);
+		User maria = new User("Maria", 3);
+		User[] lista = { juan, maria };
+
+		System.out.println("Escritura a JSON");
+		String ss = gson.toJson(lista);
+		System.out.println(ss);
+
+		System.out.println();
+		System.out.println("Lectura de JSON (String) a Objeto");
+		User[] lista2 = gson.fromJson(new StringReader(ss), User[].class);
+		System.out.println(Arrays.toString(lista2));
+
+		System.out.println();
+		System.out.println("Lectura de JSON (file) a Objeto");
+
+		String path = "./data/data.json";
+		JsonReader reader;
+		try {
+			reader = new JsonReader(new FileReader(path));
+			Message[] lista3 = gson.fromJson(reader, Message[].class);
+			System.out.println(Arrays.toString(lista3));
+
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		System.out.println();
+		System.out.println("Lectura de JSON (file) a Objeto. Metodo manual");
+
+		JsonReader reader2;
+		try {
+			List<Message> lista4 = readJsonStream(new FileInputStream(path));
+			System.out.println(Arrays.toString(lista4.toArray()));
+
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
 	}
-	
-	public static void main(String[] args) {
-	
-		
-		String s = "[]";
-		InputStream stream = new ByteArrayInputStream(s.getBytes(StandardCharsets.UTF_8));
-		
-		//------------------------
-		Gson gson = new Gson();
-		int [] l = {1,2, 3};
-		String ss = gson.toJson(l);
-		System.out.println(ss);
-		
-		
-		
-		BagOfPrimitives obj = new BagOfPrimitives();
-		String json = gson.toJson(obj);
-		
-		System.out.println(json);
-		
-		BagOfPrimitives obj2 = gson.fromJson(json, BagOfPrimitives.class);
-		
-		test();
-			
-	}
-	
+
 	public static List<Message> readJsonStream(InputStream in) throws IOException {
-	     JsonReader reader = new JsonReader(new InputStreamReader(in, "UTF-8"));
-	     try {
-	       return readMessagesArray(reader);
-	     } finally {
-	       reader.close();
-	     }
-	   }
+		JsonReader reader = new JsonReader(new InputStreamReader(in, "UTF-8"));
+		try {
+			return readMessagesArray(reader);
+		} finally {
+			reader.close();
+		}
+	}
 
-	   public static List<Message> readMessagesArray(JsonReader reader) throws IOException {
-	     List<Message> messages = new ArrayList<Message>();
+	public static List<Message> readMessagesArray(JsonReader reader) throws IOException {
+		List<Message> messages = new ArrayList<Message>();
 
-	     reader.beginArray();
-	     while (reader.hasNext()) {
-	       messages.add(readMessage(reader));
-	     }
-	     reader.endArray();
-	     return messages;
-	   }
+		reader.beginArray();
+		while (reader.hasNext()) {
+			messages.add(readMessage(reader));
+		}
+		reader.endArray();
+		return messages;
+	}
 
-	   public static Message readMessage(JsonReader reader) throws IOException {
-	     long id = -1;
-	     String text = null;
-	     User user = null;
-	     List<Double> geo = null;
+	public static Message readMessage(JsonReader reader) throws IOException {
+		long id = -1;
+		String text = null;
+		User user = null;
+		List<Double> geo = null;
 
-	     reader.beginObject();
-	     while (reader.hasNext()) {
-	       String name = reader.nextName();
-	       if (name.equals("id")) {
-	         id = reader.nextLong();
-	       } else if (name.equals("text")) {
-	         text = reader.nextString();
-	       } else if (name.equals("geo") && reader.peek() != JsonToken.NULL) {
-	         geo = readDoublesArray(reader);
-	       } else if (name.equals("user")) {
-	         user = readUser(reader);
-	       } else {
-	         reader.skipValue();
-	       }
-	     }
-	     reader.endObject();
-	     return new Message(id, text, user, geo);
-	   }
+		reader.beginObject();
+		while (reader.hasNext()) {
+			String name = reader.nextName();
+			if (name.equals("id")) {
+				id = reader.nextLong();
+			} else if (name.equals("text")) {
+				text = reader.nextString();
+			} else if (name.equals("geo") && reader.peek() != JsonToken.NULL) {
+				geo = readDoublesArray(reader);
+			} else if (name.equals("user")) {
+				user = readUser(reader);
+			} else {
+				reader.skipValue();
+			}
+		}
+		reader.endObject();
+		return new Message(id, text, user, geo);
+	}
 
-	   public static List<Double> readDoublesArray(JsonReader reader) throws IOException {
-	     List<Double> doubles = new ArrayList<Double>();
+	public static List<Double> readDoublesArray(JsonReader reader) throws IOException {
+		List<Double> doubles = new ArrayList<Double>();
 
-	     reader.beginArray();
-	     while (reader.hasNext()) {
-	       doubles.add(reader.nextDouble());
-	     }
-	     reader.endArray();
-	     return doubles;
-	   }
+		reader.beginArray();
+		while (reader.hasNext()) {
+			doubles.add(reader.nextDouble());
+		}
+		reader.endArray();
+		return doubles;
+	}
 
-	   public static User readUser(JsonReader reader) throws IOException {
-	     String username = null;
-	     int followersCount = -1;
+	public static User readUser(JsonReader reader) throws IOException {
+		String username = null;
+		int followersCount = -1;
 
-	     reader.beginObject();
-	     while (reader.hasNext()) {
-	       String name = reader.nextName();
-	       if (name.equals("name")) {
-	         username = reader.nextString();
-	       } else if (name.equals("followers_count")) {
-	         followersCount = reader.nextInt();
-	       } else {
-	         reader.skipValue();
-	       }
-	     }
-	     reader.endObject();
-	     return new User(username, followersCount);
-	   }
-	
-	
+		reader.beginObject();
+		while (reader.hasNext()) {
+			String name = reader.nextName();
+			if (name.equals("name")) {
+				username = reader.nextString();
+			} else if (name.equals("followers_count")) {
+				followersCount = reader.nextInt();
+			} else {
+				reader.skipValue();
+			}
+		}
+		reader.endObject();
+		return new User(username, followersCount);
+	}
+
 }
