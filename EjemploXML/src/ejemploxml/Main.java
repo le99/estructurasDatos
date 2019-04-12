@@ -60,7 +60,7 @@ public class Main extends DefaultHandler {
 	@Override
 	public void endElement(String uri, String localName, String qName)
             throws SAXException {
-		
+		System.out.println(localName);
 	}
 
 	public void endDocument() throws SAXException {
