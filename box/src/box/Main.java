@@ -64,7 +64,7 @@ public class Main {
 		
 		
 		System.out.println("-------------------------------");
-		System.out.println("Probando Arreglo3");
+		System.out.println("Probando Arreglo de Comparables");
 		System.out.println("-------------------------------");
 		
 		ArregloDeComparables<String> ar = new ArregloDeComparablesImplementacion<>();

@@ -26,19 +26,6 @@ public class ArregloDeComparablesImplementacion<T extends Comparable<T>> impleme
 			size ++;
 		}
 	}
-
-	@Override
-	public void delete() {
-		if(size > 0) {
-			size--;
-			arreglo[size] = null;
-		}
-	}
-
-	@Override
-	public T get() {
-		return arreglo[size - 1];
-	}
 	
 	@Override
 	public Iterator<T> iterator() {

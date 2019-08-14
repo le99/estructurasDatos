@@ -22,18 +22,6 @@ public class ContainerArray<T> implements Container<T> {
 		}
 	}
 
-	@Override
-	public void delete() {
-		if(size > 0) {
-			size--;
-			arreglo[size] = null;
-		}
-	}
-
-	@Override
-	public T get() {
-		return arreglo[size - 1].get();
-	}
 	
 	@Override
 	public Iterator<T> iterator() {
