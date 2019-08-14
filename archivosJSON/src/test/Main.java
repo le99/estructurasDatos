@@ -18,7 +18,7 @@ import com.google.gson.stream.JsonToken;
 /**
  * Basado en: http://www.javadoc.io/doc/com.google.code.gson/gson/2.8.5
  * 
- * GSON se puede secargar en:
+ * GSON se puede descargar en:
  * https://mvnrepository.com/artifact/com.google.code.gson/gson
  */
 public class Main {
