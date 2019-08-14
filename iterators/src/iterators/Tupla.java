@@ -25,17 +25,14 @@ public class Tupla<T> implements Iterable<T>{
 
 	@Override
 	public Iterator<T> iterator() {
-		Iterator<T> iter = new TupleIterator<T>(this);
-		return iter;
+		return new TupleIterator();
 	}
 	
-	private class TupleIterator<T> implements Iterator<T>{
+	private class TupleIterator implements Iterator<T>{
 
 		private int elementoSiguiente = 1;
-		private Tupla<T> tupla;
 		
-		public TupleIterator(Tupla t) {
-			this.tupla = t;
+		public TupleIterator() {
 		}
 		@Override
 		public boolean hasNext() {
@@ -46,10 +43,10 @@ public class Tupla<T> implements Iterable<T>{
 		public T next() {
 			T siguiente;
 			if(elementoSiguiente == 1) {
-				siguiente = tupla.v1;
+				siguiente = v1;
 			}
 			else if(elementoSiguiente == 2) {
-				siguiente = tupla.v2;
+				siguiente = v2;
 			}
 			else {
 				siguiente = null;
