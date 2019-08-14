@@ -62,6 +62,20 @@ public class Main {
 			System.out.println(i);
 		}
 		
+		
+		System.out.println("-------------------------------");
+		System.out.println("Probando Arreglo3");
+		System.out.println("-------------------------------");
+		
+		ArregloDeComparables<String> ar = new ArregloDeComparablesImplementacion<>();
+		ar.add("1");
+		ar.add("2");
+		for(String s: ar) {
+			System.out.println(s);
+		}
+		
+		
+		
 	}
 
 }
