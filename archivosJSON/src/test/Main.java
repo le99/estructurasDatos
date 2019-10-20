@@ -12,6 +12,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 
@@ -57,9 +59,28 @@ public class Main {
 		}
 
 		System.out.println();
+		System.out.println("Lectura de JSON (file) a Objeto. Se lee solo un pedazo del JSON (body.data)");
+		// Mirar 
+		// https://www.javadoc.io/doc/com.google.code.gson/gson/2.8.6
+		// https://static.javadoc.io/com.google.code.gson/gson/2.8.6/com.google.gson/com/google/gson/JsonElement.html
+		String path2 = "./data/data_anidated.json";
+		JsonReader reader2;
+		try {
+			reader2 = new JsonReader(new FileReader(path2));
+			JsonElement elem = JsonParser.parseReader(reader2);
+			JsonElement e2 = elem.getAsJsonObject().get("body").getAsJsonObject().get("data");
+			Message[] lista4 = gson.fromJson(e2, Message[].class);
+			System.out.println(Arrays.toString(lista4));
+
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		System.out.println();
 		System.out.println("Lectura de JSON (file) a Objeto. Metodo manual");
 
-		JsonReader reader2;
+		JsonReader reader3;
 		try {
 			List<Message> lista4 = readJsonStream(new FileInputStream(path));
 			System.out.println(Arrays.toString(lista4.toArray()));
