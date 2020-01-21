@@ -21,31 +21,19 @@ public class Main {
 		System.out.println("Tiempo para insertar " + DATOS_A_INSERTAR + " datos: " + (finish - start)/1000 + "s");
 
 		start = System.currentTimeMillis();
-		eliminarAlFinal(datos);
+		for(int n = 0; n < DATOS_A_ELIMAR; n++) {
+			datos.remove(datos.size()-1);
+		}
 		finish = System.currentTimeMillis();
 		System.out.println("Tiempo para elminar al final " + DATOS_A_ELIMAR + " datos: " + (finish - start) + "ms");
 
 
 		start = System.currentTimeMillis();
-		eliminarAlComienzo(datos);
-		finish = System.currentTimeMillis();
-		System.out.println("Tiempo para elminar al comienzo " + DATOS_A_ELIMAR + " datos: " + (finish - start) + "ms");
-
-	}
-
-	public static void eliminarAlFinal(ArrayList<Integer> datos) {
-
-		for(int n = 0; n < DATOS_A_ELIMAR; n++) {
-			datos.remove(datos.size()-1);
-		}
-
-	}
-
-	public static void eliminarAlComienzo(ArrayList<Integer> datos) {
-
 		for(int n = 0; n < DATOS_A_ELIMAR; n++) {
 			datos.remove(0);
 		}
+		finish = System.currentTimeMillis();
+		System.out.println("Tiempo para elminar al comienzo " + DATOS_A_ELIMAR + " datos: " + (finish - start) + "ms");
 
 	}
 }
