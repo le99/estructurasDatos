@@ -1,4 +1,4 @@
-package generics;
+package generics.contenedor;
 
 
 public class ContenedorObjeto {

@@ -3,6 +3,13 @@ package generics;
 import java.util.ArrayList;
 import java.util.List;
 
+import generics.arreglo2.Arreglo2Ordenado;
+import generics.arreglo2.IArreglo2Ordenado;
+import generics.contenedor.ContenedorGenerico;
+import generics.contenedor.ContenedorNumero;
+import generics.contenedor.ContenedorObjeto;
+import generics.tupla.Tupla2;
+
 /**
  * Para más documentación mirar:
  * https://docs.oracle.com/javase/tutorial/java/generics/index.html
@@ -37,7 +44,7 @@ public class Main {
 		System.out.println("Uso de un Contenedor<String>");
 		System.out.println("-------------------------------");
 
-		Contenedor<String> cs = new Contenedor<>();
+		ContenedorGenerico<String> cs = new ContenedorGenerico<>();
 		cs.set("Otro contenido");
 		valor = cs.get();
 		System.out.println("No se necseito hacer un cast");
@@ -48,7 +55,7 @@ public class Main {
 		System.out.println("Uso de una Tupla<String, Integer>");
 		System.out.println("-------------------------------");
 		
-		Tupla<String, Integer> t = new Tupla<>();
+		Tupla2<String, Integer> t = new Tupla2<>();
 		t.set1("Valor 1");
 		t.set2(new Integer(45));
 		String valor1 = t.get1();
@@ -92,9 +99,21 @@ public class Main {
 		
 		
 		System.out.println("-------------------------------");
+		System.out.println("Uso de Arreglo2Ordenado");
+		System.out.println("-------------------------------");
+		
+		IArreglo2Ordenado<String> arregloOrdenado = new Arreglo2Ordenado<String>();
+		arregloOrdenado.add("a");
+		arregloOrdenado.add("b");
+		
+		System.out.println("El elemento más grande es: " + arregloOrdenado.get(0));
+		System.out.println("El segundo elemento más grande es: " + arregloOrdenado.get(1));
+		
+		
+		System.out.println("-------------------------------");
 		System.out.println("Wildcards: ?");
 		System.out.println("-------------------------------");
-		Contenedor<Object> cont1 = new Contenedor<Object>();
+		ContenedorGenerico<Object> cont1 = new ContenedorGenerico<Object>();
 		
 		//Error
 		System.out.println("No es valido esta sentencia: ");
@@ -102,9 +121,9 @@ public class Main {
 		//Contenedor<Object> cont2 = new Contenedor<Integer>();
 		
 		//Valido
-		Contenedor<?> cont3 = new Contenedor<Object>();
-		Contenedor<?> cont2 = new Contenedor<Number>();
-		Contenedor<?> cont4 = new Contenedor<Integer>();
+		ContenedorGenerico<?> cont3 = new ContenedorGenerico<Object>();
+		ContenedorGenerico<?> cont2 = new ContenedorGenerico<Number>();
+		ContenedorGenerico<?> cont4 = new ContenedorGenerico<Integer>();
 
 		System.out.println("-------------------------------");
 		System.out.println("Wildcards: ? extends Number");
@@ -116,8 +135,8 @@ public class Main {
 		//Contenedor<? extends Number> cont4 = new Contenedor<Object>();
 		
 		//Valido
-		Contenedor<? extends Number> cont5 = new Contenedor<Number>();
-		Contenedor<? extends Number> cont6 = new Contenedor<Integer>();
+		ContenedorGenerico<? extends Number> cont5 = new ContenedorGenerico<Number>();
+		ContenedorGenerico<? extends Number> cont6 = new ContenedorGenerico<Integer>();
 		
 		
 		System.out.println("-------------------------------");
@@ -126,8 +145,8 @@ public class Main {
 		
 		
 		//Valido
-		Contenedor<? super Number> cont7 = new Contenedor<Object>();
-		Contenedor<? super Number> cont8 = new Contenedor<Number>();
+		ContenedorGenerico<? super Number> cont7 = new ContenedorGenerico<Object>();
+		ContenedorGenerico<? super Number> cont8 = new ContenedorGenerico<Number>();
 		
 		//Error
 		System.out.println("No es valido esta sentencia: ");
@@ -140,21 +159,21 @@ public class Main {
 		System.out.println("-------------------------------");
 		
 		System.out.println("valorAbsolutoDeContenido con  Contenedor<Number>");
-		Contenedor<Number> cnn1 = new Contenedor<>();
+		ContenedorGenerico<Number> cnn1 = new ContenedorGenerico<>();
 		cnn1.set(new Integer(-51));
 		double d = MetodosGenericos.valorAbsolutoDeContenido(cnn1);
 		System.out.println(d);
 		System.out.println();
 		
-		System.out.println("valorAbsolutoDeContenido con  Contenedor<Integer>");
-		Contenedor<Integer> cnn2 = new Contenedor<>();
+		System.out.println("valorAbsolutoDeContenido con Contenedor<Integer>");
+		ContenedorGenerico<Integer> cnn2 = new ContenedorGenerico<>();
 		cnn2.set(new Integer(-51));
 		d = MetodosGenericos.valorAbsolutoDeContenido(cnn2);
 		System.out.println(d);
 		System.out.println();
 		
 		System.out.println("valorAbsolutoDeContenido con  Contenedor<Object>, NO FUNCIONA");
-		Contenedor<Object> cnn3 = new Contenedor<>();
+		ContenedorGenerico<Object> cnn3 = new ContenedorGenerico<>();
 		cnn3.set(new Integer(-51));
 		
 		//d = MetodosGenericos.valorAbsolutoDeContenido(cnn3);

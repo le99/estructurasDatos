@@ -1,9 +1,9 @@
-package generics;
+package generics.contenedor;
 
-public class Contenedor<K> {
+public class ContenedorNumero<K extends Number> {
 	private K valor;
 	
-	public K get() {		
+	public K get() {
 		return valor;
 	}
 	
