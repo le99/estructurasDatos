@@ -27,26 +27,12 @@ public class Main {
 
 	public static void main(String[] args) {
 
-		System.out.println("Working Directory = " + System.getProperty("user.dir"));
-
 		Gson gson = new Gson();
-		User juan = new User("Juan", 5);
-		User maria = new User("Maria", 3);
-		User[] lista = { juan, maria };
-
-		System.out.println("Escritura a JSON");
-		String ss = gson.toJson(lista);
-		System.out.println(ss);
-
-		System.out.println();
-		System.out.println("Lectura de JSON (String) a Objeto");
-		User[] lista2 = gson.fromJson(new StringReader(ss), User[].class);
-		System.out.println(Arrays.toString(lista2));
-
-		System.out.println();
-		System.out.println("Lectura de JSON (file) a Objeto");
-
+		
+		System.out.println("Lectura de un JSON");
+		System.out.println("--------------------------");
 		String path = "./data/data.json";
+
 		JsonReader reader;
 		try {
 			reader = new JsonReader(new FileReader(path));
@@ -59,7 +45,8 @@ public class Main {
 		}
 
 		System.out.println();
-		System.out.println("Lectura de JSON (file) a Objeto. Se lee solo un pedazo del JSON (body.data)");
+		System.out.println("Lectura de un pedazo de un JSON. Especificamante (body.data)");
+		System.out.println("--------------------------");
 		// Mirar 
 		// https://www.javadoc.io/doc/com.google.code.gson/gson/2.8.6
 		// https://static.javadoc.io/com.google.code.gson/gson/2.8.6/com.google.gson/com/google/gson/JsonElement.html
@@ -79,6 +66,7 @@ public class Main {
 		
 		System.out.println();
 		System.out.println("Lectura de JSON (file) a Objeto. Metodo manual");
+		System.out.println("--------------------------");
 
 		JsonReader reader3;
 		try {
@@ -89,6 +77,26 @@ public class Main {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
+		System.out.println();
+		System.out.println("Escritura y uso con un String");
+		System.out.println("--------------------------");
+		
+		User juan = new User("Juan", 5);
+		User maria = new User("Maria", 3);
+		User[] lista = { juan, maria };
+
+		System.out.println("Escritura a JSON");
+		String ss = gson.toJson(lista);
+		System.out.println(ss);
+
+		System.out.println();
+		System.out.println("Lectura de JSON (String) a Objeto");
+		User[] lista2 = gson.fromJson(new StringReader(ss), User[].class);
+		System.out.println(Arrays.toString(lista2));
+
+		System.out.println();
+		System.out.println("Lectura de JSON (file) a Objeto");
 
 	}
 
