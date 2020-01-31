@@ -12,6 +12,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
@@ -72,6 +73,44 @@ public class Main {
 		try {
 			List<Message> lista4 = readJsonStream(new FileInputStream(path));
 			System.out.println(Arrays.toString(lista4.toArray()));
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		System.out.println();
+		System.out.println("Lectura de JSON (file) a Objeto. Metodo manual 2");
+		System.out.println("--------------------------");
+
+		JsonReader reader4;
+		try {
+			List<Message> lista5 = new ArrayList<Message>();
+
+			reader4 = new JsonReader(new FileReader(path));
+			JsonElement elem = JsonParser.parseReader(reader4);
+			JsonArray e2 = elem.getAsJsonArray();
+			for(JsonElement je: e2) {
+				int id = je.getAsJsonObject().get("id").getAsInt();
+				String text = je.getAsJsonObject().get("text").getAsString();
+
+				String username = je.getAsJsonObject().get("user").getAsJsonObject().get("name").getAsString();
+				int followersCount = je.getAsJsonObject().get("user").getAsJsonObject().get("followers_count").getAsInt();
+				User user = new User(username, followersCount);
+				
+				List<Double> geo = new ArrayList<Double>();
+				if(je.getAsJsonObject().has("geo") && !je.getAsJsonObject().get("geo").isJsonNull()) {
+					for(JsonElement geoElem: je.getAsJsonObject().get("geo").getAsJsonArray()) {
+						geo.add(geoElem.getAsDouble());
+
+					}
+				}
+				Message m = new Message(id, text, user, geo);
+				lista5.add(m);
+			}
+
+			System.out.println(Arrays.toString(lista5.toArray()));
+
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
