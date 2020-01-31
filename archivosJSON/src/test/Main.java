@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringReader;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -15,6 +16,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
+import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 
@@ -30,21 +32,33 @@ public class Main {
 
 		Gson gson = new Gson();
 		
-		System.out.println("Lectura de un JSON");
-		System.out.println("--------------------------");
 		String path = "./data/data.json";
 
+		
+		System.out.println("Lectura de un JSON a un arreglo");
+		System.out.println("--------------------------");
 		JsonReader reader;
 		try {
 			reader = new JsonReader(new FileReader(path));
-			Message[] lista3 = gson.fromJson(reader, Message[].class);
-			System.out.println(Arrays.toString(lista3));
-
+			Message[] lista = gson.fromJson(reader, Message[].class);
+			System.out.println(Arrays.toString(lista));
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
+		
+		System.out.println("Lectura de un JSON a una Lista");
+		System.out.println("--------------------------");
+		try {
+			reader = new JsonReader(new FileReader(path));
+			Type collectionType = new TypeToken<List<Message>>(){}.getType();
+			List<Message> lista = gson.fromJson(reader, collectionType);
+			System.out.println(Arrays.toString(lista.toArray()));
+
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		
 		System.out.println();
 		System.out.println("Lectura de un pedazo de un JSON. Especificamante (body.data)");
 		System.out.println("--------------------------");
@@ -52,30 +66,26 @@ public class Main {
 		// https://www.javadoc.io/doc/com.google.code.gson/gson/2.8.6
 		// https://static.javadoc.io/com.google.code.gson/gson/2.8.6/com.google.gson/com/google/gson/JsonElement.html
 		String path2 = "./data/data_anidated.json";
-		JsonReader reader2;
 		try {
-			reader2 = new JsonReader(new FileReader(path2));
-			JsonElement elem = JsonParser.parseReader(reader2);
-			JsonElement e2 = elem.getAsJsonObject().get("body").getAsJsonObject().get("data");
-			Message[] lista4 = gson.fromJson(e2, Message[].class);
-			System.out.println(Arrays.toString(lista4));
+			reader = new JsonReader(new FileReader(path2));
+			JsonElement elem = JsonParser.parseReader(reader);
+			JsonElement e = elem.getAsJsonObject().get("body").getAsJsonObject().get("data");
+			Message[] lista = gson.fromJson(e, Message[].class);
+			System.out.println(Arrays.toString(lista));
 
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 		System.out.println();
-		System.out.println("Lectura de JSON (file) a Objeto. Metodo manual");
+		System.out.println("Lectura de JSON (file) a Objeto. Metodo manual Streams");
 		System.out.println("--------------------------");
 
-		JsonReader reader3;
 		try {
-			List<Message> lista4 = readJsonStream(new FileInputStream(path));
-			System.out.println(Arrays.toString(lista4.toArray()));
+			List<Message> lista = readJsonStream(new FileInputStream(path));
+			System.out.println(Arrays.toString(lista.toArray()));
 
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -83,37 +93,35 @@ public class Main {
 		System.out.println("Lectura de JSON (file) a Objeto. Metodo manual 2");
 		System.out.println("--------------------------");
 
-		JsonReader reader4;
 		try {
-			List<Message> lista5 = new ArrayList<Message>();
+			List<Message> lista = new ArrayList<Message>();
 
-			reader4 = new JsonReader(new FileReader(path));
-			JsonElement elem = JsonParser.parseReader(reader4);
-			JsonArray e2 = elem.getAsJsonArray();
-			for(JsonElement je: e2) {
-				int id = je.getAsJsonObject().get("id").getAsInt();
-				String text = je.getAsJsonObject().get("text").getAsString();
+			reader = new JsonReader(new FileReader(path));
+			JsonElement elem = JsonParser.parseReader(reader);
+			JsonArray ja = elem.getAsJsonArray();
+			for(JsonElement e: ja) {
+				int id = e.getAsJsonObject().get("id").getAsInt();
+				String text = e.getAsJsonObject().get("text").getAsString();
 
-				String username = je.getAsJsonObject().get("user").getAsJsonObject().get("name").getAsString();
-				int followersCount = je.getAsJsonObject().get("user").getAsJsonObject().get("followers_count").getAsInt();
+				String username = e.getAsJsonObject().get("user").getAsJsonObject().get("name").getAsString();
+				int followersCount = e.getAsJsonObject().get("user").getAsJsonObject().get("followers_count").getAsInt();
 				User user = new User(username, followersCount);
 				
 				List<Double> geo = new ArrayList<Double>();
-				if(je.getAsJsonObject().has("geo") && !je.getAsJsonObject().get("geo").isJsonNull()) {
-					for(JsonElement geoElem: je.getAsJsonObject().get("geo").getAsJsonArray()) {
+				if(e.getAsJsonObject().has("geo") && !e.getAsJsonObject().get("geo").isJsonNull()) {
+					for(JsonElement geoElem: e.getAsJsonObject().get("geo").getAsJsonArray()) {
 						geo.add(geoElem.getAsDouble());
 
 					}
 				}
 				Message m = new Message(id, text, user, geo);
-				lista5.add(m);
+				lista.add(m);
 			}
 
-			System.out.println(Arrays.toString(lista5.toArray()));
+			System.out.println(Arrays.toString(lista.toArray()));
 
 
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
